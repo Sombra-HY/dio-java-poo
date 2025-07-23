@@ -1,8 +1,5 @@
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -42,7 +39,7 @@ class Bootcamp{
     private final LocalDate dateFinal = dataInicial.plusDays(45);
 
     private Set<Dev> devsinscritos = new HashSet<>();
-    private Set<Dev> conteudos = new LinkedHashSet<>();
+    private Set<Conteudo> conteudos = new LinkedHashSet<>();
 
 
     @Override
@@ -89,11 +86,11 @@ class Bootcamp{
         this.devsinscritos = devsinscritos;
     }
 
-    public Set<Dev> getConteudos() {
+    public Set<Conteudo> getConteudos() {
         return conteudos;
     }
 
-    public void setConteudos(Set<Dev> conteudos) {
+    public void setConteudos(Set<Conteudo> conteudos) {
         this.conteudos = conteudos;
     }
 }
@@ -103,17 +100,27 @@ class Dev{
     private Set<Conteudo> conteudoInscrito = new LinkedHashSet<>();
     private Set<Conteudo> conteudoConcluido= new LinkedHashSet<>();
 
+    public double calcularXP(){
+        return this.conteudoConcluido.stream()
+                .mapToDouble(Conteudo::calcularXP)
+                .sum();
+    }
+
 
     public void inscreverBootcamp(Bootcamp bootcamp){
-
+        this.conteudoInscrito.addAll(bootcamp.getConteudos());
+        bootcamp.getDevsinscritos().add(this);
     }
     public void progredir(){
-
+        Optional<Conteudo> conteudo =  this.conteudoConcluido.stream().findFirst();
+        if(conteudo.isPresent()){
+            this.conteudoConcluido.add(conteudo.get());
+            this.conteudoConcluido.remove(conteudo.get());
+        }else{
+            System.out.println("nao esta matricualdo em nenhum conteudo!");
+        }
     }
 
-    public void calcularXP(){
-
-    }
 
     @Override
     public boolean equals(Object o) {
