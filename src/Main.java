@@ -1,4 +1,8 @@
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -30,7 +34,124 @@ public class Main {
     }
 }
 
-class Bootcamp{}
+class Bootcamp{
+    private String nome;
+    private String descricao;
+
+    private final LocalDate dataInicial = LocalDate.now();
+    private final LocalDate dateFinal = dataInicial.plusDays(45);
+
+    private Set<Dev> devsinscritos = new HashSet<>();
+    private Set<Dev> conteudos = new LinkedHashSet<>();
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Bootcamp bootcamp = (Bootcamp) o;
+        return Objects.equals(nome, bootcamp.nome) && Objects.equals(descricao, bootcamp.descricao) && Objects.equals(dataInicial, bootcamp.dataInicial) && Objects.equals(dateFinal, bootcamp.dateFinal) && Objects.equals(devsinscritos, bootcamp.devsinscritos) && Objects.equals(conteudos, bootcamp.conteudos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, descricao, dataInicial, dateFinal, devsinscritos, conteudos);
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public LocalDate getDataInicial() {
+        return dataInicial;
+    }
+
+    public LocalDate getDateFinal() {
+        return dateFinal;
+    }
+
+    public Set<Dev> getDevsinscritos() {
+        return devsinscritos;
+    }
+
+    public void setDevsinscritos(Set<Dev> devsinscritos) {
+        this.devsinscritos = devsinscritos;
+    }
+
+    public Set<Dev> getConteudos() {
+        return conteudos;
+    }
+
+    public void setConteudos(Set<Dev> conteudos) {
+        this.conteudos = conteudos;
+    }
+}
+
+class Dev{
+    private String nome;
+    private Set<Conteudo> conteudoInscrito = new LinkedHashSet<>();
+    private Set<Conteudo> conteudoConcluido= new LinkedHashSet<>();
+
+
+    public void inscreverBootcamp(Bootcamp bootcamp){
+
+    }
+    public void progredir(){
+
+    }
+
+    public void calcularXP(){
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Dev dev = (Dev) o;
+        return Objects.equals(nome, dev.nome) && Objects.equals(conteudoInscrito, dev.conteudoInscrito) && Objects.equals(conteudoConcluido, dev.conteudoConcluido);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, conteudoInscrito, conteudoConcluido);
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Set<Conteudo> getConteudoInscrito() {
+        return conteudoInscrito;
+    }
+
+    public void setConteudoInscrito(Set<Conteudo> conteudoInscrito) {
+        this.conteudoInscrito = conteudoInscrito;
+    }
+
+    public Set<Conteudo> getConteudoConcluido() {
+        return conteudoConcluido;
+    }
+
+    public void setConteudoConcluido(Set<Conteudo> conteudoConcluido) {
+        this.conteudoConcluido = conteudoConcluido;
+    }
+}
+
 
 abstract class Conteudo<T extends Conteudo<T>>{
     public static final double XP_PADRAO = 10d;
