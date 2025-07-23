@@ -25,24 +25,47 @@ public class Main {
                 .setDate(LocalDate.now());
 
         System.out.println(mentoria);
+
+        Conteudo<Curso> curs = new Curso();
     }
 }
 
 class Bootcamp{}
 
-class Curso{
+abstract class Conteudo<T extends Conteudo<T>>{
+    public static final double XP_PADRAO = 10d;
+
     private String titulo;
     private String descricao;
-    private int cargahoraria;
 
-    public Curso setTitulo(String titulo) {
+    public abstract double calcularXP();
+
+    public String getTitulo() {
+        return titulo;
+    }
+    @SuppressWarnings("unchecked")
+    public T setTitulo(String titulo) {
         this.titulo = titulo;
-        return this;
+        return (T) this;
     }
 
-    public Curso setDescricao(String descricao) {
+    public String getDescricao() {
+        return descricao;
+    }
+    @SuppressWarnings("unchecked")
+    public T setDescricao(String descricao) {
         this.descricao = descricao;
-        return this;
+        return (T)this;
+    }
+}
+
+class Curso extends Conteudo<Curso>{
+
+    private int cargahoraria;
+
+    @Override
+    public double calcularXP() {
+        return cargahoraria * XP_PADRAO;
     }
 
     public Curso setCargahoraria(int cargahoraria) {
@@ -53,42 +76,25 @@ class Curso{
     @Override
     public String toString() {
         return "Curso{" +
-                "titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
+                "titulo='" + getTitulo() + '\'' +
+                ", descricao='" + getDescricao() + '\'' +
                 ", cargahoraria=" + cargahoraria +
                 '}';
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
 
     public int getCargahoraria() {
         return cargahoraria;
     }
 }
 
-class Mentoria{
-    private String titulo;
-    private String descricao;
+class Mentoria extends Conteudo<Mentoria>{
 
     public LocalDate getDate() {
         return date;
     }
 
-    public Mentoria setTitulo(String titulo) {
-        this.titulo = titulo;
-        return this;
-    }
 
-    public Mentoria setDescricao(String descricao) {
-        this.descricao = descricao;
-        return this;
-    }
 
     public Mentoria setDate(LocalDate date) {
         this.date = date;
@@ -98,18 +104,15 @@ class Mentoria{
     @Override
     public String toString() {
         return "Mentoria{" +
-                "titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
+                "titulo='" + getTitulo() + '\'' +
+                ", descricao='" + getDescricao() + '\'' +
                 ", date=" + date +
                 '}';
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public String getTitulo() {
-        return titulo;
+    @Override
+    public double calcularXP() {
+        return XP_PADRAO * 3;
     }
 
     private LocalDate date;
